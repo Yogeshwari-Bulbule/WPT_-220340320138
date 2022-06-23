@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=in, initial-scale=1.0">
+    <title>Document</title>
+    <script src = "https://code.jquery.com/quey - 3.6.0.js"></script>
+    <script>
+         $(()=>{
+            console.log("working on js and html");
+            $('#bookid').on('blur',()=>{
+                console.log('blur registered');
+                let input = { bookid : $('#bookid').val()}
+                console.log(input);
+                $.ajax({
+                    data : input,
+                    type: "get",
+                    dataType: "json",
+                    url: "http://localhost:8081/ssel",
+					sucess : (data) => {
+                        console.log(data);
+                        if(data .status) {
+                            S('#msg').text('book is found')
+                            $('#bookname').val(data.bookname);
+                            $('#bookprice').val(data.price);
+                            
+                        } else {
+                            S('#msg').text('book is  not found')
+                            $('#bookname').val("");
+                            $('#bookprice').val("");
+                        }
+                    }
+                    error: (error) =>{
+                        console.log(err);
+                    }
+                
+            })
+         });
+         $('#update').on('click',()=>{
+            console.log('cliced');
+            let input = {bookid :$('bookid').val(),price: $ ('#bookprice').val()}
+            $.ajax( {
+                data : input,
+                url = "http://localhost:8081/update"
+                type :'get';
+                datatype: 'json',
+                sucess : (data) =>{
+                    console.log(data);
+                    if (data.status){
+                        $('#msg').text('price is updated')
+                    }
+                }else {
+                    $('#msg').text('price is  not updated')
+
+                }
+                error: (err) =>{
+                    console.log(err);
+                }
+
+            })
+         });
+           
+        })
+    </script>
+</head>
+<body>
+    <label for ="bid">book id</label>
+    <input type="number" name="bookid" id="bookid" placeholder="enter book id"> <span>Message</span>
+     <br>
+    <label for ="bname">book name</label>
+    <input type="text" name="bookname" id="bookname" placeholder="enter book name"> <br>
+
+    <label for ="price">bprice</label> 
+    <input type="number" name="price" id="bookprice" placeholder="enter book price"> <br>
+    <button id ="update" > update</button>
+
+    
+
+
+</body>
+</html>
